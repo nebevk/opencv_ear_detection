@@ -1,4 +1,4 @@
-# opencv_ear_detection :ear:
+# OpenCV ear detection :ear:
 
 Simple ear detector using OpenCV and pre-trained haar cascades.
 
