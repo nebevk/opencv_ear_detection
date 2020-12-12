@@ -1,5 +1,4 @@
 import glob
-
 import cv2.cv2 as cv2
 import numpy as np
 
@@ -11,8 +10,11 @@ face_cascade = cv2.CascadeClassifier('cascades/haarcascade_frontalface_default.x
 
 
 def detectFace(image, gray):
+    # Make lists with scale factors ranging from 1.01, to 1.99
     scaleFactor = np.arange(1.01, 1.99, 0.01)
+    # Detect ears with 3 different cascades
     for i in scaleFactor:
+        # Each iteration use slightly bigger scale factor
         faceList = face_cascade.detectMultiScale(gray, i, 5)
         if len(faceList) == 1:
             for (x, y, w, h) in faceList:
@@ -24,14 +26,17 @@ def detectFace(image, gray):
 
 
 def detectEars(roi_color, roi_gray):
+    # Make lists with scale factors ranging from 1.01, to 1.99
     scaleFactor = np.arange(1.01, 1.99, 0.01)
     # Detect ears with 3 different cascades
     for i in scaleFactor:
+        # Each iteration use slightly bigger scale factor
         left_ear = left_ear_cascade.detectMultiScale(roi_gray, i, 5)
         print("k left: ", i)
         right_ear = right_ear_cascade.detectMultiScale(roi_gray, i, 5)
         print("k right: ", i)
         both_ears = both_ears_cascade.detectMultiScale(roi_gray, i, 5)
+        # When there is first detection draw bounding box
         if len(left_ear) == 1:
             print("Left Ear scale factor:", i)
             for (xle, yle, wle, hle) in left_ear:
@@ -73,7 +78,7 @@ def detection(img):
 # Store images from folder in list
 filenames = glob.glob('img/test/*.png')
 imgList = [cv2.imread(img) for img in filenames]
-# Run detection with different image
 
+# Run detection on all images inside /img
 for image in imgList:
     detection(image)
